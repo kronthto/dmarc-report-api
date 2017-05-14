@@ -13,6 +13,8 @@ return [
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
         'tmpReports' => $appBase.'/storage/reports/',
 
+        'allowOrigin' => Env::get('CORS_ORIGIN', '*'),
+
         'db' => [
             'host' => Env::get('DB_HOST', '127.0.0.1'),
             'user' => Env::get('DB_USERNAME', 'homestead'),
