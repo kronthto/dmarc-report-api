@@ -1,0 +1,8 @@
+/vendor
+/.idea
+/.vagrant
+.env
+.php_cs.cache
+debug.log
+
+!.gitkeep
