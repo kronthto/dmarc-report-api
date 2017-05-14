@@ -9,23 +9,40 @@ use Slim\Http\Response;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Use middleware when running application?
-     *
-     * @var bool
-     */
-    protected $withMiddleware = true;
+    /** @var App */
+    protected $app;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        // Use the application settings
+        $settings = require __DIR__.'/../../src/settings.php';
+
+        // Instantiate the application
+        $app = new App($settings);
+
+        // Set up dependencies
+        require __DIR__.'/../../src/dependencies.php';
+
+        // Register middleware
+        require __DIR__.'/../../src/middleware.php';
+
+        // Register routes
+        require __DIR__.'/../../src/routes.php';
+
+        $this->app = $app;
+    }
 
     /**
-     * Process the application given a request method and URI.
+     * Prepares a test-request.
      *
-     * @param string            $requestMethod the request method (e.g. GET, POST, etc.)
-     * @param string            $requestUri    the request URI
-     * @param array|object|null $requestData   the request data
+     * @param string $requestMethod
+     * @param string $requestUri
      *
-     * @return \Slim\Http\Response
+     * @return Request
      */
-    public function runApp($requestMethod, $requestUri, $requestData = null)
+    public function scaffoldRequest(string $requestMethod, string $requestUri): Request
     {
         // Create a mock environment for testing with
         $environment = Environment::mock(
@@ -38,33 +55,23 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         // Set up a request object based on the environment
         $request = Request::createFromEnvironment($environment);
 
-        // Add request data, if it exists
-        if (isset($requestData)) {
-            $request = $request->withParsedBody($requestData);
-        }
+        return $request;
+    }
 
+    /**
+     * Processes the request though the application.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function processRequest(Request $request): Response
+    {
         // Set up a response object
         $response = new Response();
 
-        // Use the application settings
-        $settings = require __DIR__.'/../../src/settings.php';
-
-        // Instantiate the application
-        $app = new App($settings);
-
-        // Set up dependencies
-        require __DIR__.'/../../src/dependencies.php';
-
-        // Register middleware
-        if ($this->withMiddleware) {
-            require __DIR__.'/../../src/middleware.php';
-        }
-
-        // Register routes
-        require __DIR__.'/../../src/routes.php';
-
-        // Process the application
-        $response = $app->process($request, $response);
+        // Process the request/application
+        $response = $this->app->process($request, $response);
 
         // Return the response
         return $response;
