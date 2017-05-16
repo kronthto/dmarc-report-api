@@ -1,5 +1,7 @@
 {
     "name": "kronthto/dmarc-report-api",
+    "description": "HTTP API for managing DMARC reports",
+    "keywords": ["http", "DMARC", "API", "stats", "rua"],
     "license": "MIT",
     "type": "project",
     "authors": [
@@ -8,6 +10,7 @@
             "email": "kronthto@gmail.com"
         }
     ],
+    "homepage": "https://github.com/kronthto/dmarc-report-api",
     "require": {
         "php": ">=7.0.0",
         "cekurte/environment": "^0.3.0",
