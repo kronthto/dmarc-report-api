@@ -10,6 +10,7 @@ This is an HTTP API to [solarissmoke/php-dmarc](https://github.com/solarissmoke/
 
 * `/submit` endpoint that passes reports to the parser package
 * CORS
+* Repairs base64 encoding failures
 
 ## Install
 

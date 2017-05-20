@@ -9,3 +9,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Dependency
 - `/submit` endpoint
 - CORS
+- Repairs base64 encoding failures
