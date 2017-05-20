@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 // CORS
 $app->add(function (ServerRequestInterface $request, ResponseInterface $response, callable $next) {
     $allowOrigin = $this->get('settings')['allowOrigin'];
-    if (is_null($allowOrigin)) {
+    if (empty($allowOrigin)) {
         $allowOrigin = 'null';
     }
 
