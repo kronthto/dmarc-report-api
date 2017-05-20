@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 // CORS
 $app->add(function (ServerRequestInterface $request, ResponseInterface $response, callable $next) {
     $allowOrigin = $this->get('settings')['allowOrigin'];
+    if (is_null($allowOrigin)) {
+        $allowOrigin = 'null';
+    }
 
     if (strtoupper($request->getMethod()) == 'OPTIONS') { // Preflight Request
         return $response
